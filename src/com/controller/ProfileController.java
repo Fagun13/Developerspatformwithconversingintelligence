@@ -60,7 +60,7 @@ public class ProfileController
 		 	return new ModelAndView("user/EditUserProfile","ProfileVO",profileVO);
 	}
  @RequestMapping(value="/saveUserProfile.htm",method=RequestMethod.POST)
-	public ModelAndView saveUserProfile(HttpServletRequest request,@ModelAttribute("ProfileVO") ProfileVO profileVO,@RequestParam("file1") CommonsMultipartFile file) throws IOException
+	public ModelAndView saveUserProfile(HttpServletRequest request,@ModelAttribute("ProfileVO") ProfileVO profileVO,@RequestParam("file1") CommonsMultipartFile file)throws IOException
 	{			
 	 			System.out.println("inside");
 			 HttpSession session=request.getSession();
@@ -78,7 +78,7 @@ public class ProfileController
 		     bout.flush();    
 		     bout.close();  
 		       
-		      
+		     //comment 
 		           profileVO.setProfilePicPath(path+"/"+filename);
 		           profileService.saveOrEditProfile(profileVO);
 	   return new ModelAndView("user/index");

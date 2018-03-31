@@ -10,7 +10,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Chain Responsive Bootstrap3 Admin</title>
+        <title>Developers Platform With Conversing Intelligence</title>
 
         <link href="adminResources/css/style.default.css" rel="stylesheet">
         <link href="adminResources/css/select2.css" rel="stylesheet" />
@@ -75,14 +75,14 @@
                                         <td>${list1.complainDescription}</td>
                                         <td>${list1.replyComplainDescription}</td>                
                                         <td>${list1.complainStatus}</td>
-                                        <td><a  download='${list1.complainDescriptionFile}'>view</a></td>
-                                    </tr>
+                                        <td><a href='<%=request.getContextPath()%>/upload/complain/${list1.loginVO.username}/${list1.complainDescriptionFile}' download>view</a></td>
+                                        </tr>
                                     </c:forEach>
                                     </tbody>
                             </table>
                         </div><!-- panel -->
                         
-                        <br />
+                        <br/>
                         
                         <div class="panel panel-dark-head">
                             <div class="panel-heading">

@@ -17,8 +17,8 @@
                         <li><a href="ViewComplain.htm"><span class="pull-right badge"></span><i class="fa fa-envelope-o"></i> <span>View Complain</span></a></li>
 						<li><a href="ManageFeedBack.htm"><span class="pull-right badge"></span><i class="fa fa-envelope-o"></i> <span>View Feedback</span></a></li>
                         <li><a href="ViewAdminProfile.htm"><span class="pull-right badge"></span><i class="fa fa-envelope-o"></i> <span>Profile</span></a></li>
-                        <li><a href="Error.htm"><span class="pull-right badge"></span><i class="fa fa-envelope-o"></i> <span>error page</span></a></li>
-                            
+<!--                         <li><a href="Error.htm"><span class="pull-right badge"></span><i class="fa fa-envelope-o"></i> <span>error page</span></a></li>
+ -->                            
                     </ul>
                     
                 </div>

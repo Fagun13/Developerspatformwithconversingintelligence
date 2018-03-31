@@ -10,7 +10,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Chain Responsive Bootstrap3 Admin</title>
+        <title>Developers Platform With Conversing Intelligence</title>
 
         <link href="adminResources/css/style.default.css" rel="stylesheet">
         <link href="adminResources/css/select2.css" rel="stylesheet" />
@@ -79,7 +79,7 @@
                                         <td>${list1.complainDescription}</td>
                                         <td>${list1.complainDate}</td>
                                         <td>${list1.complainTime}</td>                      
-                                        <td><a download='${list1.complainDescriptionFile}'  >Download</a></td>
+                                        <td><a href="" download='${list1.complainDescriptionFile}'  >Download</a></td>
                                         <td><a href='ReplyComplain.htm?id=${list1.complainId}'>Reply</a></td>
                                     </tr>
                                     </c:forEach>

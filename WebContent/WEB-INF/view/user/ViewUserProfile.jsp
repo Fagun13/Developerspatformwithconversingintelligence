@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Apricot v 1.3</title>
+    <title>Developers Platform With Conversing Intelligence</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -73,8 +74,13 @@
                                        <li class="list-group-item text-left">
                                              <a href="EditUserProfile.htm"><span class="entypo-user"></span>&nbsp;&nbsp;Edit Profile</a></li>
                                         <li class="list-group-item text-center">
-                                            <img src="${List1.profilePicPath}" alt="" class="img-circle img-responsive img-profile">
-
+                                        <c:if test="${not empty List1.profilePicPath}">
+                                            <img src="<%=request.getContextPath()%>/upload/profileImg/${sessionScope.reg.loginVO.username}/${sessionScope.profilePic}" alt="" class="img-circle img-responsive img-profile"> 
+										 
+										</c:if>
+										<c:if test="${empty List1.profilePicPath}">
+                                             <img src="adminResources/images/girl.jpg" alt="" class="img-circle img-responsive img-profile">
+										</c:if>
                                         </li>
                                 
                                     </ul>

@@ -10,12 +10,34 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Edit Profile</title>
-<link rel="stylesheet" href="adminResources/css/loader-style.css"/>
-<link rel="stylesheet" href="adminResources/css/profile.css"/>
+        <title>Developers Platform With Conversing Intelligence</title>
 <link  rel="stylesheet" href="adminResources/css/style.default.css"/>
 <link rel="stylesheet" href="adminResources/css/select2.css"  />
+<script>
+function selected()
+{
+	 var img1=document.getElementById("profilePic");
+	var fileInput=document.getElementById("file1");
+	
+	var htp=new XMLHttpRequest();
+	
+	
+	   htp.onreadystatechange=function()
+	   {
+		  
+	 	  if(this.readyState == 4 && this.status == 200)
+	 		  {
+	 		   
+	 		  alert("output is "+this.responseText);
+	 			
+	 		  }
+	   };
+  htp.open("POST","uploadUserProfile.htm",true);
 
+  htp.setRequestHeader("Content-Type", "multipart/form-data");
+  htp.send(fileInput);
+	}
+</script>
 </head>
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
@@ -47,10 +69,9 @@
 
 				<div class="row">
 					<div class="col-md-12">
-						<c:set value="${sessionScope.ProfileList}" var="ls" />
+						
 										<form:form class="form-horizontal" 
-											action="saveUserProfile.htm" method="post" modelAttribute="ProfileVO"
-											  enctype="multipart/form-data">
+											action="saveUserProfile.htm" method="post" modelAttribute="ProfileVO" enctype="multipart/form-data" >
 						
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -67,28 +88,29 @@
 
 									<div class="row">
 							
-										
-											<form:hidden value="${ls.registrationVO}"
-												path="registrationVO" />
+										<form:hidden  path="profileId"/>
+											<form:hidden path="registrationVO.registrationId" />
 											<!-- left column -->
 											<div class="col-md-3">
 												<div class="text-center">
 
-													<img src="${ls.profilePicPath}"
-														class="img-circle img-responsive img-profile"
-														style="margin-top: 70px;" alt="">
+													 
+                                            <img src="<%=request.getContextPath()%>/upload/profileImg/${sessionScope.reg.loginVO.username}/${sessionScope.profilePic}" name="profilePic" id="profilePic" alt="" class="img-circle img-responsive img-profile"> 
+										 
+										
+										
 													<h6>Upload a different photo...</h6>
 
-													<div class="form-group">
+													<div class="input-group">
 														<span class="input-group-btn"> <span
 															class="btn btn-default btn-file"> Browse 
-															<input	type="file" name="file1" id="file1" class="form-control" />
+															
+															<input	type="file" name="file1" id="file1" class="form-control" onchange="selected()" />
 														</span>
 														</span>
 
+													</div>												
 													</div>
-												</div>
-
 											</div>
 
 											<!-- edit form column -->
@@ -99,31 +121,31 @@
 												<div class="form-group">
 													<label class="col-lg-3 control-label">First name:</label>
 													<div class="col-lg-8">
-														<input class="form-control"
-															value="${ls.registrationVO.registrationFname}"
-															type="text" value="" readonly="readonly">
+														<form:input class="form-control"
+															path="registrationVO.registrationFname"
+															 readonly="true"/>
 													</div>
 												</div>
 												<div class="form-group">
 													<label class="col-lg-3 control-label">Last name:</label>
 													<div class="col-lg-8">
-														<input class="form-control"
-															value="${ls.registrationVO.registrationLname}"
-															type="text" value="" readonly="readonly">
+														<form:input class="form-control"
+															path="registrationVO.registrationLname"
+															  readonly="true"/>
 													</div>
 												</div>
 												<div class="form-group">
 													<label class="col-lg-3 control-label">Username:</label>
 													<div class="col-lg-8">
-														<input type="text" class="form-control"
-															value="${ls.profileUsername}" readonly="readonly" />
+														<form:input  class="form-control"
+															path="profileUsername" readonly="true" />
 													</div>
 												</div>
 												<div class="form-group">
 													<label class="col-lg-3 control-label">Description:</label>
 													<div class="col-lg-8">
 														<form:textarea cssClass="form-control"
-															value="${ls.profileDescription}"
+															
 															path="profileDescription"
 															placeholder="Describe your self" />
 													</div>
@@ -132,7 +154,7 @@
 													<label class="col-lg-3 control-label">Company:</label>
 													<div class="col-lg-8">
 														<form:input cssClass="form-control"
-															value="${ls.profileCompany}" path="profileCompany"
+															 path="profileCompany"
 															placeholder="Enter Compny name" />
 													</div>
 												</div>
@@ -140,7 +162,7 @@
 													<label class="col-lg-3 control-label">Designation:</label>
 													<div class="col-lg-8">
 														<form:input cssClass="form-control"
-															value="${ls.profileDesignation}"
+															
 															path="profileDesignation"
 															palceholder="Enter phone number" />
 													</div>
@@ -148,8 +170,8 @@
 												<div class="form-group">
 													<label class="col-lg-3 control-label">Skills:</label>
 													<div class="col-lg-8">
-														<form:select cssClass="form-control" path="profileSkills"
-															palceholder="Enter phone number" multiple="multiple">
+														<form:select cssClass="form-control" path="profileSkills" multiple="multiple"
+															 >
 															<form:option value="java">Java</form:option>
 															<form:option value="html">HTML</form:option>
 															<form:option value="css">CSS</form:option>
@@ -163,7 +185,7 @@
 													<label class="col-lg-3 control-label">Hobbies:</label>
 													<div class="col-lg-8">
 														<form:textarea cssClass="form-control"
-															value="${ls.profileHobbies}" path="profileHobbies"
+															 path="profileHobbies"
 															palceholder="Tell about your hobbies" />
 													</div>
 												</div>
@@ -171,11 +193,11 @@
 													<label class="col-lg-3 control-label">Phone Number:</label>
 													<div class="col-lg-8">
 														<form:input cssClass="form-control"
-															path="profilePhoneNumer" value="${ls.profilePhoneNumer}"
+															path="profilePhoneNumer"
 															palceholder="Enter phone number" />
 													</div>
 												</div>
-												
+												</div>
 										</div>
 										<div class="panel-footer">
 													<div class="row">
@@ -189,7 +211,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						
 						</form:form>
 					</div>
 					</div>

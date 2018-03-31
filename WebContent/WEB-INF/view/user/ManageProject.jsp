@@ -6,7 +6,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Chain Responsive Bootstrap3 Admin</title>
+        <title>Developers Platform with Conversing Intelligence</title>
 
         <link href="adminResources/css/style.default.css" rel="stylesheet">
         <link href="adminResources/css/prettyPhoto.css" rel="stylesheet">
@@ -33,9 +33,9 @@
                                 <ul class="breadcrumb">
                                     <li><a href=""><i class="glyphicon glyphicon-home"></i></a></li>
                                     <li><a href="">Pages</a></li>
-                                    <li>Media Manager</li>
+                                    <li>Manage Project</li>
                                 </ul>
-                                <h4>Media Manager</h4>
+                                <h4>Manage Project</h4>
                             </div>
                         </div><!-- media -->
                     </div><!-- pageheader -->

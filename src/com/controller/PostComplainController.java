@@ -1,13 +1,14 @@
 package com.controller;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import org.apache.commons.io.FilenameUtils;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import com.oreilly.servlet.MultipartRequest;  
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,10 +43,16 @@ public class PostComplainController
 	@RequestMapping(value="/savepostcomplain.htm",method=RequestMethod.POST)
 	public ModelAndView savePostComplain(HttpServletRequest request,@ModelAttribute("PostComplainVO") PostComplainVO postComplainVO,@RequestParam("file1") CommonsMultipartFile file) throws IOException
 	{
+		
 		HttpSession session=request.getSession();
-		String path=session.getServletContext().getRealPath("/ROOT/complain");
+		String path=session.getServletContext().getRealPath("/upload/complain");
+		//String path=request.getContextPath()+"/upload/complain";
 		System.out.println(path);
+		
 		int  loginId=(Integer)session.getAttribute("loginId");
+		RegistrationVO registrationVO=(RegistrationVO)session.getAttribute("reg");
+		
+		
 		LoginVO loginVO=new LoginVO();
 		loginVO.setLoginId(loginId);
 		postComplainVO.setLoginVO(loginVO);
@@ -54,9 +61,22 @@ public class PostComplainController
         
               try{  
         byte barr[]=file.getBytes();  
-          
+        File file1=new File(path+"//"+registrationVO.getLoginVO().getUsername()); 
+        if(!file1.exists())
+        {
+        	file1.mkdirs();
+        }
+        file1=new File(path+"//"+registrationVO.getLoginVO().getUsername()+"//"+filename);
+        if(file1.exists())
+        {
+        	filename="new"+filename;
+        	file1=new File(path+"//"+registrationVO.getLoginVO().getUsername()+"//"+filename);
+        	
+        }
         BufferedOutputStream bout=new BufferedOutputStream(  
-                 new FileOutputStream(path+"/"+filename));  
+                 new FileOutputStream(file1));  
+       
+        
         bout.write(barr);  
         bout.flush();    
         bout.close();  
@@ -68,7 +88,7 @@ public class PostComplainController
             	  
               }  
 
-        postComplainVO.setComplainDescriptionFile(path+"\\"+filename);
+        postComplainVO.setComplainDescriptionFile(filename);
 
 		postComplainService.ServiceInsert(postComplainVO);
 		return new ModelAndView("user/index");
@@ -97,6 +117,7 @@ public class PostComplainController
 			loginVO.setLoginId(loginId);
 			postComplainVO.setLoginVO(loginVO);
 			 List<PostComplainVO> ls=postComplainService.serviceSelectUserdetails(postComplainVO);
+			 System.out.println("File path "+ls.get(0).getComplainDescriptionFile());
 			return new ModelAndView("user/ViewComplainUser","list",ls);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

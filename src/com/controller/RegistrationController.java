@@ -1,4 +1,7 @@
 package com.controller;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,11 +16,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.VO.LoginVO;
 import com.VO.ProfileVO;
 import com.VO.RegistrationVO;
+import com.service.ProfileService;
 import com.service.RegistrationService;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
@@ -32,6 +37,14 @@ public class RegistrationController
 		this.registrationService = registrationService;
 	}
 	
+	private ProfileService ProfileService;
+	@Autowired(required=true)
+	public void setProfileService(ProfileService ProfileService)
+	{
+		
+		this.ProfileService = ProfileService;
+	}
+	
 	@RequestMapping(value={"/","index.htm"},method=RequestMethod.GET)
 	public ModelAndView load()
 	{
@@ -43,6 +56,9 @@ public class RegistrationController
 	{
 		session.removeAttribute("loginId");
 		session.removeAttribute("regId");
+		session.removeAttribute("reg");
+		session.removeAttribute("profilePic");
+		session.invalidate();
 		return new ModelAndView("admin/signin");
 		
 	}
@@ -79,7 +95,7 @@ public class RegistrationController
 		registrationVO.setLoginVO(loginVO);
 		List<RegistrationVO> ls1=registrationService.ServiceRegIdSelect(registrationVO);
 		session.setAttribute("regId",ls1.get(0).getRegistrationId() ); 
-		
+		session.setAttribute("reg",ls1.get(0));
 		return new ModelAndView("admin/index");
 		}
 		catch(Exception e)
@@ -104,8 +120,12 @@ public class RegistrationController
 			registrationVO.setLoginVO(loginVO);
 			List<RegistrationVO> ls1=registrationService.ServiceRegIdSelect(registrationVO);
 			session.setAttribute("regId",ls1.get(0).getRegistrationId() ); 
+			session.setAttribute("reg",ls1.get(0));
+			registrationVO.setRegistrationId(ls1.get(0).getRegistrationId());
+			List<ProfileVO> listprofile=ProfileService.fetchProfileDetailsOfUser(registrationVO);
 			
-			 System.out.println("username>>>>>>"+ls.get(0).getLoginId());
+			session.setAttribute("profilePic",listprofile.get(0).getProfilePicPath());
+			
 			 
 			
 			return new ModelAndView("user/index");
@@ -133,7 +153,7 @@ public class RegistrationController
 			String fname=registrationVO.getRegistrationFname();
 			String email=registrationVO.getRegistrationEmail();
 			String username=registrationService.generateUsername(fname);
-			
+			String path=session.getServletContext().getRealPath("/upload/profileImg");
 			String pass="dpci_"+registrationService.generatePassword();
 			
 			String content="Welcome"+fname+", to Developer's Platform with conversing Intelligence. \n your username is"
@@ -143,6 +163,10 @@ public class RegistrationController
 			loginVO.setUsername(username);
 	
 			this.registrationService.ServiceInsertLogin(loginVO);
+			
+			  
+	          
+	       
 			/*HttpSession session=request.getSession();
 			session.setAttribute("regEmail",username);
 			*/
@@ -153,6 +177,11 @@ public class RegistrationController
 			
 			this.registrationService.ServiceInsert(registrationVO);
 			
+			 File file1=new File(path+"//"+registrationVO.getLoginVO().getUsername()); 
+		        if(!file1.exists())
+		        {
+		        	file1.mkdirs();
+		        }
 			ProfileVO profileVO=new ProfileVO();
 			
 			profileVO.setRegistrationVO(registrationVO);

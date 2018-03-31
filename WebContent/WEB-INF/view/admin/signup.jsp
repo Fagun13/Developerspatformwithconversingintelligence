@@ -9,7 +9,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Chain Responsive Bootstrap3 Admin</title>
+        <title>Developers Platform With Conversing Intelligence</title>
 
         <link href="adminResources/css/style.default.css" rel="stylesheet">
 

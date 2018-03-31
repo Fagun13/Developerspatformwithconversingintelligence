@@ -26,14 +26,14 @@ private SessionFactory sessionFactory;
 		List ls=query.list();
 		transaction.commit();
 		session.close();		
-		System.out.println("Hello"+ls.size());
+		
 		 return ls;
 	}
 	public void saveOrEditProfile(ProfileVO profileVO)
 	{
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
-		session.update(profileVO);
+		session.saveOrUpdate(profileVO);
 		transaction.commit();
 		session.close();
 	}

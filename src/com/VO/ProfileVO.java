@@ -24,7 +24,7 @@ public class ProfileVO
 	private String profileSkills;
 	private String profileHobbies;
 	private String profileUsername;
-	private String profilePicPath="adminResources/images/boy.jpg";
+	private String profilePicPath;
 	@ManyToOne
 	@JoinColumn(name="regId")
 	private RegistrationVO registrationVO;

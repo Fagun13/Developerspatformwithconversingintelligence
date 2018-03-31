@@ -4,7 +4,7 @@
             <div class="headerwrapper">
                 <div class="header-left">
                     <a href="index.html" class="logo">
-                        <img src="adminResources/images/logo.png" alt="" /> 
+                        <!-- <img src="adminResources/images/logo.png" alt="" />  -->
                     </a>
                     <div class="pull-right">
                         <a href="" class="menu-collapse">

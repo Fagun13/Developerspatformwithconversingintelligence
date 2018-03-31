@@ -10,7 +10,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Chain Responsive Bootstrap3 Admin</title>
+        <title>Developers Platform With Conversing Intelligence</title>
 
         <link href="adminResources/css/style.default.css" rel="stylesheet">
 
@@ -42,7 +42,7 @@
             <div class="panel panel-signin">
                 <div class="panel-body">
                     <div class="logo text-center">
-                        <img src="adminResources/images/logo-primary.png" alt="Chain Logo" >
+                        <img src="adminResources/images/logo-primary.png" alt="DPCI Logo" >
                     </div>
                     <br />
                     <h4 class="text-center mb5">Already a Member?</h4>

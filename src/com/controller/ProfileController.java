@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -50,37 +51,90 @@ public class ProfileController
 	 		registrationVO.setRegistrationId(regId);
 	 		List ls=profileService.fetchProfileDetailsOfUser(registrationVO);
 	 		session.setAttribute("ProfileList", ls.get(0));
+	 		ProfileVO f=(ProfileVO)ls.get(0);
+	 		System.out.println(f.getProfilePicPath());
 		    return new ModelAndView("user/ViewUserProfile","List1",ls.get(0));
 	}
  @RequestMapping(value="/EditUserProfile.htm",method=RequestMethod.GET)
 	public ModelAndView loadEditUserProfile(HttpSession session)
 	{
-		    ProfileVO profileVO=new ProfileVO();
-		   
-		 	return new ModelAndView("user/EditUserProfile","ProfileVO",profileVO);
+	 		
+	 		
+		 	return new ModelAndView("user/EditUserProfile","ProfileVO",(ProfileVO)session.getAttribute("ProfileList"));
 	}
- @RequestMapping(value="/saveUserProfile.htm",method=RequestMethod.POST)
-	public ModelAndView saveUserProfile(HttpServletRequest request,@ModelAttribute("ProfileVO") ProfileVO profileVO,@RequestParam("file1") CommonsMultipartFile file)throws IOException
+ 
+ 
+ @RequestMapping(value="/uploadUserProfile.htm",method=RequestMethod.POST)
+	public ModelAndView uploadUserProfile(HttpServletRequest request,@RequestParam("file1") CommonsMultipartFile file)throws Exception
+	{			
+	 			
+			 HttpSession session=request.getSession();
+			 String path=session.getServletContext().getRealPath("/upload/profileImg");
+		     RegistrationVO registrationVO=(RegistrationVO)session.getAttribute("reg");
+		     String filename=file.getOriginalFilename();  
+		     File file1=new File(path+"//"+registrationVO.getLoginVO().getUsername()+"//"+filename);
+		     if(file1.exists())
+		     {
+		    	 filename="new"+filename;
+		     }
+		     try
+		     {  
+		        byte barr[]=file.getBytes();  
+		          
+		        BufferedOutputStream bout=new BufferedOutputStream(  
+		                 new FileOutputStream(path+"//"+registrationVO.getLoginVO().getUsername()+"//"+filename));  
+		        bout.write(barr);  
+		        bout.flush();    
+		        bout.close();  
+		        
+		        }
+		              catch(Exception e)
+		              {
+		            	  return new ModelAndView("admin/Error","e",e.toString());
+		            	  
+		              }  
+
+		          
+		           session.setAttribute("profilePic", filename); 
+	   return new ModelAndView("user/ProfilePicUploaded","fname",filename);
+	}
+
+ 
+    @RequestMapping(value="/saveUserProfile.htm",method=RequestMethod.POST)
+	public ModelAndView saveUserProfile(HttpServletRequest request,@ModelAttribute("ProfileVO") ProfileVO profileVO,@RequestParam("file1") CommonsMultipartFile file)throws Exception
 	{			
 	 			System.out.println("inside");
 			 HttpSession session=request.getSession();
-			 String path=session.getServletContext().getRealPath("/ROOT/profile");
+			 String path=session.getServletContext().getRealPath("/upload/profileImg");
 		     System.out.println(path);
-		    String filename=file.getOriginalFilename();  
-		     
+		 	 RegistrationVO registrationVO=(RegistrationVO)session.getAttribute("reg");
+		     String filename=file.getOriginalFilename();  
+		     File file1=new File(path+"//"+registrationVO.getLoginVO().getUsername()+"//"+filename);
+		     if(file1.exists())
+		     {
+		    	 filename="new"+filename;
+		     }
+		     try
+		     {  
+		        byte barr[]=file.getBytes();  
 		          
-		     byte barr[]=file.getBytes();  
-		       
-		     BufferedOutputStream bout=new BufferedOutputStream(  
-		              new FileOutputStream(path+"/"+filename));
-		     System.out.print(filename);
-		     bout.write(barr);  
-		     bout.flush();    
-		     bout.close();  
-		       
+		        BufferedOutputStream bout=new BufferedOutputStream(  
+		                 new FileOutputStream(path+"//"+registrationVO.getLoginVO().getUsername()+"//"+filename));  
+		        bout.write(barr);  
+		        bout.flush();    
+		        bout.close();  
+		        
+		        }
+		              catch(Exception e)
+		              {
+		            	  return new ModelAndView("admin/Error","e",e.toString());
+		            	  
+		              }  
+  
 		     //comment 
-		           profileVO.setProfilePicPath(path+"/"+filename);
+		           profileVO.setProfilePicPath(filename);
 		           profileService.saveOrEditProfile(profileVO);
+		           session.setAttribute("profilePic", filename); 
 	   return new ModelAndView("user/index");
 	}
  
